@@ -2,7 +2,7 @@
 %define waybar_dir Waybar-%{version}
 
 Name:       waybar
-Version:    0.9.0
+Version:    0.9.1
 Release:    1%{?dist}
 Summary:    Highly customizable Wayland bar for Sway and Wlroots based compositors.
 License:    MIT
@@ -43,21 +43,19 @@ Highly customizable Wayland bar for Sway and Wlroots based compositors.
 %autosetup -n %{waybar_dir}
 
 %build
-%meson
+%set_build_flags
+%{shrink:%{__meson} --buildtype=plain --prefix=%{_prefix} --libdir=%{_libdir} --libexecdir=%{_libexecdir} --bindir=%{_bindir} --sbindir=%{_sbindir} --includedir=%{_includedir} --datadir=%{_datadir} --mandir=%{_mandir} --infodir=%{_infodir} --localedir=%{_datadir}/locale --sysconfdir=%{_sysconfdir} --localstatedir=%{_localstatedir} --sharedstatedir=%{_sharedstatedir} --auto-features=%{__meson_auto_features} %{_vpath_srcdir} %{_vpath_builddir} %{nil}}
 %meson_build
 
 %install
 %meson_install
-# disable systemd user service by default
-%{__mkdir_p} %{buildroot}/%{_userpresetdir}
-echo 'disable %{name}.service' >%{buildroot}/%{_userpresetdir}/90-%{name}.preset
 
 %post
-%systemd_user_post %{name}.service
+rm -rf %{_sysconfdir}/xdg/%{name}
+rm -f %{_userunitdir}/%{name}.service
 
-%preun
-%systemd_user_preun %{name}.service
-
+# Do not start from systemd, so do not need .service file
+# Do not put default style and config in /etc/waybar/
 %files
 %license LICENSE
 %doc README.md
@@ -67,9 +65,9 @@ echo 'disable %{name}.service' >%{buildroot}/%{_userpresetdir}/90-%{name}.preset
 %config(noreplace) %{_sysconfdir}/xdg/%{name}/style.css
 %{_bindir}/%{name}
 %{_userunitdir}/%{name}.service
-%{_userpresetdir}/90-%{name}.preset
-
 
 %changelog
+* Mon Feb 17 2020 Xiaofeng Wang <hernywangxf@me.com> 0.9.1-1
+- https://github.com/Alexays/Waybar/releases/tag/0.9.1
 * Mon Feb 17 2020 Xiaofeng Wang <hernywangxf@me.com> 0.9.0-1
 - Initial RPM release
