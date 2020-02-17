@@ -8,7 +8,7 @@ Summary:    Highly customizable Wayland bar for Sway and Wlroots based composito
 License:    MIT
 Group:      System/GUI/Other
 URL:        https://github.com/Alexays/Waybar
-Source0:	%{url}/archive/%{version}.tar.gz
+Source0:    %{url}/archive/%{version}.tar.gz
 
 BuildRequires:	cmake
 BuildRequires:	meson
