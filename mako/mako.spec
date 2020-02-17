@@ -1,5 +1,5 @@
 Name:       mako
-Version:	1.4.1
+Version:	1.4
 Release:	1%{?dist}
 Summary:	A lightweight notification daemon for Wayland.
 
@@ -17,8 +17,10 @@ BuildRequires:	pkgconfig(pango)
 BuildRequires:	pkgconfig(pangocairo)
 BuildRequires:	pkgconfig(glib-2.0)
 BuildRequires:	pkgconfig(gobject-2.0)
-#To fix issue 213
-BuildRequires:	scdoc >= 1.9.7
+# To fix issue 213, but scdoc 1.9.7 is not available on Fedora yet
+# rollback to 1.4
+# BuildRequires:	scdoc >= 1.9.7
+BuildRequires:	scdoc
 BuildRequires:  pkgconfig(gdk-pixbuf-2.0)
 
 %description
@@ -43,10 +45,9 @@ BuildRequires:  pkgconfig(gdk-pixbuf-2.0)
 %{_bindir}/mako
 %{_bindir}/makoctl
 %{_mandir}/man1/mako*.1*
-%{_mandir}/man5/mako*.5*
 %{_mandir}/man1/makoctl*.1*
 %{_datadir}/dbus-1/services/fr.emersion.mako.service
 
 %changelog
-* Mon Feb 17 2020 Xiaofeng Wang <hernywangxf@me.com> 1.4.1-1
+* Mon Feb 17 2020 Xiaofeng Wang <hernywangxf@me.com> 1.4-1
 - Initial RPM release
